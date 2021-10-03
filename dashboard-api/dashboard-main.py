@@ -12,13 +12,18 @@ app = Flask(__name__)
 api = Api(app)
 
 
-class Locations(Resource):
+class Buckets(Resource):
     def get(self):
         s3 = boto3.client('s3', aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID'), aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY'))
         response = s3.list_objects(Bucket="swastik-personal-bucket")
-        return {'data': response.get('Contents', [])[0].get('Key')}
+        keys = []
+        for key in response.get('Contents', []):
+            key.update({'LastModified': ''})
+            keys.append(key)
+        print(keys)    
+        return {'data': keys}
     
-api.add_resource(Locations, '/locations')  # and '/locations' is our entry point for Locations
+api.add_resource(Buckets, '/allbuckets')  # and '/locations' is our entry point for Locations
 
 
 if __name__ == '__main__':
