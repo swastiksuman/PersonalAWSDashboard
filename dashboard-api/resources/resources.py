@@ -20,3 +20,18 @@ class CloudformationStacks(Resource):
         cf = boto3.resource('cloudformation')
         stacks = [stack for stack in cf.stacks.all()]
         return {'data': stacks}
+class DeleteAllCfts(Resource):
+    def get(self):
+        statuses = ['CREATE_COMPLETE', 'UPDATE_COMPLETE']
+        cf = boto3.resource('cloudformation')
+        stacks = [stack for stack in cf.stacks.all() if stack.stack_status in statuses]
+        cfn = boto3.client('cloudformation')
+        stacksDeleted = 0
+        for stack in stacks:
+            print(cfn.delete_stack(StackName=stack.name))
+            stacksDeleted = stacksDeleted + 1
+        return {'data': 'Total stacks deleted '+ str(stacksDeleted)}
+class CreateCfts(Resource):
+    def post(self):
+        print(request.json)
+        return request.json
