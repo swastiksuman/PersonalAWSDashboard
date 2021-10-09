@@ -33,5 +33,13 @@ class DeleteAllCfts(Resource):
         return {'data': 'Total stacks deleted '+ str(stacksDeleted)}
 class CreateCfts(Resource):
     def post(self):
-        print(request.json)
-        return request.json
+        print(request.json.get('title'))
+        cf = boto3.client('cloudformation')
+        with open('cfts/aws-s3-simple.yaml') as file:
+            template = file.read()
+        print(template)
+        print("Creating New Stack: "+request.json.get('cft-name')+ " Bucket Name: "+ request.json.get('bucket-name'))
+        response = cf.create_stack(StackName=request.json.get('cft-name'), TemplateBody=template, Parameters=[{"ParameterKey":"BucketNameParam", "ParameterValue": request.json.get('bucket-name')}])
+        print(response)
+        return response
+        
