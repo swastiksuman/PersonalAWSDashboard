@@ -42,4 +42,10 @@ class CreateCfts(Resource):
         response = cf.create_stack(StackName=request.json.get('cft-name'), TemplateBody=template, Parameters=[{"ParameterKey":"BucketNameParam", "ParameterValue": request.json.get('bucket-name')}])
         print(response)
         return response
-        
+class CftStatus(Resource):
+    def get(self):
+        cf = boto3.client('cloudformation')
+        #arn:aws:cloudformation:us-east-1:749797989296:stack/MyBucket09102021/7cae1070-291f-11ec-8762-0a5394b80e4f
+        response = cf.describe_stacks(StackName=request.args.get('stackid'))
+        print(response)
+        return {'status': str(response.get('Stacks')[0].get('StackStatus'))}        
