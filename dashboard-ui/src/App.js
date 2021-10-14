@@ -1,19 +1,19 @@
 import logo from './logo.svg';
-import './App.css';
+import './App.css'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import Button from 'react-bootstrap/Button'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import Nav from 'react-bootstrap/Nav'
+import Cfts from './Cfts/Cfts';
 function App() {
   return (
     <div className="App">
       <Jumbotron>
         <h1>AWS Manager</h1>
         <p>
-          This is a simple hero unit, a simple jumbotron-style component for calling
-          extra attention to featured content or information.
+          Personal Dashboard
   </p>
         <p>
           <Button variant="primary">Learn more</Button>
@@ -36,6 +36,7 @@ function App() {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
+      <Cfts></Cfts>
     </div>
   );
 }
