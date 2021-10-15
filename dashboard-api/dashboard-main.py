@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Resource, Api, reqparse
 import pandas as pd
 import ast
@@ -8,6 +9,7 @@ from resources.resources import Buckets, CloudformationStacks, DeleteAllCfts, Cr
 
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 
     

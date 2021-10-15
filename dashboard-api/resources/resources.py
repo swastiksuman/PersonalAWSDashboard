@@ -18,7 +18,11 @@ class CloudformationStacks(Resource):
     def get(self):
         statuses = ['ROLLBACK_COMPLETE', 'CREATE_COMPLETE', 'UPDATE_COMPLETE', 'DELETE_COMPLETE']
         cf = boto3.resource('cloudformation')
-        stacks = [stack for stack in cf.stacks.all()]
+        i = 0
+        print(cf.stacks.all())
+        stacks = []
+        for stack in cf.stacks.all():
+            stacks.append(stack.name)
         return {'data': stacks}
 class DeleteAllCfts(Resource):
     def get(self):

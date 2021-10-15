@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table'
+import axios from 'axios'
 
 function Cfts(){
 
-    const [result, setResult] = useState([{"cft_name": "cft1", "cft_state":"COMPLETE","date":"21 Oct"},
-                                        {"cft_name": "cft2", "cft_state":"COMPLETE","date":"22 Oct"},
-                                        {"cft_name": "cft3", "cft_state":"COMPLETE","date":"23 Oct"}]);
-
+    const [result, setResult] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:5000/allcfts').then(res=> setResult(res.data.data));
+    }
+    )
     return (
         <Table striped bordered hover>
   <thead>
@@ -23,9 +25,9 @@ function Cfts(){
         (result.map((r, k) => 
             <tr>
                 <td>{k+1}</td>
-                <td>{r.cft_name}</td>
-                <td>{r.cft_state}</td>
-                <td>{r.date}</td>
+                <td>{r}</td>
+                <td>ACTIVE</td>
+                <td>15 Oct</td>
             </tr>
     ))
     }
