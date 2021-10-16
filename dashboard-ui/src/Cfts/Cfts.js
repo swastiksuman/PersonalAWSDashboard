@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table'
 import axios from 'axios'
+import Button from 'react-bootstrap/Button'
 
 function Cfts(){
 
     const [result, setResult] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:5000/allcfts').then(res=> setResult(res.data.data));
+        axios.get('http://localhost:5000/allcfts').then(res=> setResult(res.data.stacks));
     }
     )
+    function deleteStack(stackId){
+        console.debug('Deleting: '+stackId)
+    }
     return (
         <Table striped bordered hover>
   <thead>
@@ -16,7 +20,7 @@ function Cfts(){
       <th>#</th>
       <th>CFT Name</th>
       <th>State</th>
-      <th>Date</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -25,9 +29,10 @@ function Cfts(){
         (result.map((r, k) => 
             <tr>
                 <td>{k+1}</td>
-                <td>{r}</td>
-                <td>ACTIVE</td>
-                <td>15 Oct</td>
+                <td>{r.stackName}</td>
+                <td>{r.stackId}</td>
+                <td>{r.stackStatus}</td>
+                <td><Button variant="danger" onClick={()=> deleteStack(r.stackId)}>Delete</Button></td>
             </tr>
     ))
     }

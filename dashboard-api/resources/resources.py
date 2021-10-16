@@ -16,14 +16,14 @@ class Buckets(Resource):
         return {'data': keys}
 class CloudformationStacks(Resource):
     def get(self):
-        statuses = ['ROLLBACK_COMPLETE', 'CREATE_COMPLETE', 'UPDATE_COMPLETE', 'DELETE_COMPLETE']
-        cf = boto3.resource('cloudformation')
-        i = 0
-        print(cf.stacks.all())
+        client = boto3.client("cloudformation")
+        response = client.list_stacks(
+                           )
         stacks = []
-        for stack in cf.stacks.all():
-            stacks.append(stack.name)
-        return {'data': stacks}
+        for stack in response.get('StackSummaries', []):
+            stacks.append({"stackId":stack.get('StackId'), "stackName":stack.get("StackName"), "stackStatus":stack.get("StackStatus"), "stackId":stack.get("StackIs")})
+            
+        return {"stacks" : stacks}
 class DeleteAllCfts(Resource):
     def get(self):
         statuses = ['CREATE_COMPLETE', 'UPDATE_COMPLETE']
