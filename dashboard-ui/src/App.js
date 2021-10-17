@@ -6,8 +6,12 @@ import Button from 'react-bootstrap/Button'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import Nav from 'react-bootstrap/Nav'
-import Cfts from './Cfts/Cfts';
+import Cfts from './ListCFTs/ListCFTs';
+import { useState } from 'react';
+import CreateCfts from './CreateCFTs/CreateCFTs';
+
 function App() {
+  const [activeComponent, setActiveComponent] = useState('LIST_CFT')
   return (
     <div className="App">
       <Jumbotron>
@@ -25,7 +29,7 @@ function App() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
+            <Nav.Link onClick={()=>setActiveComponent('CREATE_CFT')}>Create</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -36,7 +40,14 @@ function App() {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      <Cfts></Cfts>
+      {
+        activeComponent === 'LIST_CFT' ? 
+          (<Cfts></Cfts>) : null
+      }
+      {
+        activeComponent === 'CREATE_CFT' ?
+        (<CreateCfts></CreateCfts>) : null  
+      }
     </div>
   );
 }
